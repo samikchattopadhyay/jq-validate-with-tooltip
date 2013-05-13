@@ -1,0 +1,148 @@
+<!Doctype html>
+<html>
+    <head>
+        <link href="js/jqui/base/jquery.ui.all.css" rel="stylesheet" />
+        <style>
+            #loginform {
+                margin: 100px; padding: 30px; border: 1px #CCC solid; width: 300px;
+            }
+
+            #loginform input[type=text], #loginform input[type=password] {
+                border: 1px solid #D4D5D7;
+                border-radius: 5px 5px 5px 5px;
+                color: #818181;
+                float: left;
+                font-size: 13px;
+                outline-width: 0;
+                padding: 5px 8px;
+            }
+            
+            #loginform input[type=text].error, #loginform input[type=password].error {
+                border: 1px solid #FF0000 !important;
+            }
+
+            .ui-tooltip {
+                border-radius: 5px;
+                font-size: 11px;
+                position: absolute;
+                top: 20px;
+            }
+
+            .arrow {
+                width: 70px;
+                height: 16px;
+                overflow: hidden;
+                position: absolute;
+                left: 50%;
+                margin-left: -35px;
+                bottom: -16px;
+            }
+            .arrow.top {
+                top: -16px;
+                bottom: auto;
+            }
+            .arrow.left {
+                left: 20%;
+            }
+            .arrow:after {
+                content: "";
+                position: absolute;
+                left: 20px;
+                top: -20px;
+                width: 25px;
+                height: 25px;
+                -webkit-transform: rotate(45deg);
+                -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                tranform: rotate(45deg);
+                -webkit-box-shadow: 0px -2px 8px rgba(50, 50, 50, 1);
+                -moz-box-shadow:    0px -2px 8px rgba(50, 50, 50, 1);
+                box-shadow:         0px -2px 8px rgba(50, 50, 50, 1);
+                background-color: #FFF;
+                border: 1px #CCC solid;
+            }
+            .arrow.top:after {
+                bottom: -30px;
+                top: auto;
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/jqui/jquery.ui.core.min.js"></script>
+        <script type="text/javascript" src="js/jqui/jquery.ui.widget.min.js"></script>
+        <script type="text/javascript" src="js/jqui/jquery.ui.position.min.js"></script>
+        <script type="text/javascript" src="js/jqui/jquery.ui.tooltip.min.js"></script>
+        <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                /**
+                 * Login validation
+                 * clearlistings.com
+                 * @Tamal Mondal
+                 */
+                $('#loginform').validate({
+                    rules: {
+                        login_email: {
+                            required: true
+                        },
+                        login_password: {
+                            required: true,
+                            minlength: 6
+                        }
+                    },
+                    messages: {
+                        login_email: {
+                            required: 'Email/Mobile required'
+                        },
+                        login_password: {
+                            required: 'Password required',
+                            minlength: 'Not valid password'
+                        }
+                    },
+                    errorPlacement: function(error, placement) {
+                        var text = error.text();
+                        var label = error.attr('for');
+                        $('#' + label).attr('title', text);
+                        placement.tooltip({
+                            position: {
+                                my: "left bottom-20",
+                                at: "left top",
+                                using: function(position, feedback) {
+                                    $(this).css(position);
+                                    $("<div>")
+                                            .addClass("arrow")
+                                            .addClass(feedback.vertical)
+                                            .addClass(feedback.horizontal)
+                                            .appendTo(this);
+                                }
+                            }
+                        });
+
+                    },
+                    success: function(label) {
+                        var label = label.attr('for');
+                        $('#' + label).attr('title', '');
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <form name="loginform" id="loginform" method="post">
+            <table>
+                <tr>
+                    <th>Email :</th>
+                    <td><input type="text" placeholder="Mobile/Email" id="login_email" name="login_email" class="required" /></td>
+                </tr>
+                <tr>
+                    <th>Password :</th>
+                    <td><input type="password" placeholder="Password" id="login_password" name="login_password"  class="required" /></td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
